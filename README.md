@@ -347,3 +347,35 @@ What useful insights can you find in this dataset?
 ```text
 Create a bar chart of employees by department.
 ```
+
+
+
+## Working Demonstration
+
+The application was tested locally across the main user workflow. The following demonstrations show each core feature in action.
+
+### 1. Upload Page
+Upload and validate a CSV dataset, with access to previously saved datasets.
+
+[View Upload Page Demo](https://github.com/user-attachments/assets/4ce6a1ed-ee6b-4d62-95f4-b49084f1b907)
+
+### 2. Dashboard
+View a summary of the uploaded dataset, key metrics, and a searchable data preview.
+
+[View Dashboard Demo](https://github.com/user-attachments/assets/a5dcea21-ed9f-4ccc-90b4-f34380db3331)
+
+### 3. Data Quality
+Review missing values, duplicate rows, inconsistent values, and detected data types.
+
+[View Data Quality Demo](https://github.com/user-attachments/assets/8a5d3027-f969-4363-b42f-46d87d67eafa)
+
+### 4. Data Visualization
+Generate suggested and manual visualizations using the uploaded dataset.
+
+[View Data Visualization Demo](https://github.com/user-attachments/assets/8df19941-8e5b-4ca4-ab2a-4f634beeec9b)
+
+### 5. AI Chatbot
+Ask natural-language questions about the uploaded dataset and receive dataset-grounded analytical responses.
+
+[View Chatbot Demo](https://github.com/user-attachments/assets/5082c115-c29f-4321-b4e3-4dc36b1e87f6)
+
