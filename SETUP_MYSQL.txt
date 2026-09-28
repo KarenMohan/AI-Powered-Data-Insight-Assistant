@@ -1,0 +1,117 @@
+AI DATA INSIGHT - SIMPLE MYSQL LOGIN + SAVED DATASETS SETUP
+==========================================================
+
+WHAT IS ALREADY BUILT
+---------------------
+- Login page
+- Register page inside the same login screen
+- Password hashing with bcrypt
+- JWT login token
+- User-specific saved datasets
+- Uploaded CSV stored in MySQL as LONGBLOB
+- Recent Uploads section on the Upload page
+- Open button to reopen an old CSV without uploading again
+- Saved CSV is loaded back into Pandas
+- Saved CSV is uploaded to Gemini again when reopened
+- Existing Dashboard, Data Quality, Visualization and Chatbot continue to use the active Pandas dataset
+- Logged-in username + Logout button in the sidebar
+
+YOU ONLY NEED TO DO THE MYSQL SETUP BELOW.
+
+STEP 1 - CREATE THE MYSQL DATABASE
+----------------------------------
+Open MySQL Workbench and run:
+
+CREATE DATABASE IF NOT EXISTS ai_data_insight
+CHARACTER SET utf8mb4
+COLLATE utf8mb4_unicode_ci;
+
+That is enough. The backend automatically creates the users and datasets tables when it starts.
+
+If you prefer to create the tables manually, run backend/MYSQL_SETUP.sql instead.
+
+STEP 2 - UPDATE backend/.env
+----------------------------
+Keep your existing GEMINI_API_KEY and add these two lines:
+
+DATABASE_URL=mysql+pymysql://root:YOUR_MYSQL_PASSWORD@localhost:3306/ai_data_insight
+JWT_SECRET_KEY=YOUR_LONG_RANDOM_SECRET
+
+Example only:
+
+GEMINI_API_KEY=your_existing_key
+DATABASE_URL=mysql+pymysql://root:MyPassword123@localhost:3306/ai_data_insight
+JWT_SECRET_KEY=2f0f4c8d6e3a4b7c9d1e5f8a0b2c4d6e8f1a3c5e7b9d0f2a4c6e8b1d3f5a7c9
+
+IMPORTANT:
+- Do not commit .env to GitHub.
+- If your MySQL password contains @, :, /, # or other URL-special characters, URL-encode it or use a simpler local development password.
+
+To generate a JWT secret from Command Prompt:
+
+python -c "import secrets; print(secrets.token_hex(32))"
+
+STEP 3 - INSTALL THE NEW BACKEND PACKAGES
+-----------------------------------------
+From your backend folder:
+
+venv\Scripts\activate
+pip install -r requirements.txt
+
+If your old venv already has FastAPI, Pandas and Gemini, this only adds the missing MySQL/auth packages.
+
+STEP 4 - START BACKEND
+----------------------
+cd backend
+venv\Scripts\activate
+uvicorn main:app --reload
+
+On first startup SQLAlchemy will create:
+- users
+- datasets
+
+STEP 5 - START FRONTEND
+-----------------------
+cd frontend
+npm install
+npm run dev
+
+Open:
+http://localhost:5173
+
+STEP 6 - TEST
+-------------
+1. Click Register.
+2. Create a username and password.
+3. Upload a CSV.
+4. Confirm the CSV appears under Recent Uploads.
+5. Go to Dashboard / Data Quality / Visualization / Chatbot and test normally.
+6. Log out.
+7. Log back in.
+8. On Upload page, click Open beside the previous CSV.
+9. Confirm Dashboard / Data Quality / Visualization / Chatbot work without re-uploading the file.
+
+DATABASE TABLES
+---------------
+users:
+- id
+- username
+- password_hash
+- created_at
+
+datasets:
+- id
+- user_id
+- filename
+- csv_data (LONGBLOB)
+- row_count
+- column_count
+- uploaded_at
+
+HOW REOPENING WORKS
+-------------------
+MySQL saved CSV -> FastAPI -> pd.read_csv(...) -> active Pandas DataFrame -> Gemini upload -> existing app features
+
+DEADLINE-SAFE DESIGN NOTE
+-------------------------
+This intentionally keeps the existing in-memory Pandas analysis architecture after a dataset is opened. MySQL is used for login ownership and persistent CSV storage. This avoids rewriting your finished Dashboard, Data Quality, Visualization and Chatbot logic before submission.
