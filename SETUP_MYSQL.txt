@@ -27,3 +27,7 @@ CREATE TABLE IF NOT EXISTS datasets (
         FOREIGN KEY (user_id) REFERENCES users(id)
         ON DELETE CASCADE
 );
+
+SELECT * from users;
+
+SELECT id, user_id, filename, row_count, column_count, uploaded_at FROM datasets;
