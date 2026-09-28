@@ -8,6 +8,8 @@ import {
   Search,
   X,
 } from "lucide-react";
+import { useEffect, useRef, useState } from "react";
+import ReactMarkdown from "react-markdown";
 
 function DashboardPage({ datasetInfo, datasetSummary, summaryLoading }) {
   const [searchTerm, setSearchTerm] = useState("");
@@ -278,18 +280,20 @@ function DashboardPage({ datasetInfo, datasetSummary, summaryLoading }) {
           <h2>Dataset Summary</h2>
         </div>
 
-        <p
+        <div
           className={
             summaryLoading
               ? "dataset-summary-text streaming"
               : "dataset-summary-text"
           }
         >
-          {datasetSummary ||
-            (summaryLoading
-              ? "Analysing the dataset..."
-              : "Summary could not be generated for this dataset.")}
-        </p>
+          <ReactMarkdown>
+            {datasetSummary ||
+              (summaryLoading
+                ? "Analysing the dataset..."
+                : "Summary could not be generated for this dataset.")}
+          </ReactMarkdown>
+        </div>
       </section>
 
       <section className="preview-section">

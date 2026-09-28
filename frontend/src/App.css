@@ -1085,6 +1085,29 @@ label {
   line-height: 1.75;
 }
 
+.dataset-summary-text p {
+  margin: 0;
+}
+
+.dataset-summary-text p + p {
+  margin-top: 10px;
+}
+
+.dataset-summary-text strong {
+  color: #334155;
+  font-weight: 700;
+}
+
+.dataset-summary-text ul,
+.dataset-summary-text ol {
+  margin: 10px 0 0;
+  padding-left: 22px;
+}
+
+.dataset-summary-text li {
+  margin: 4px 0;
+}
+
 .dataset-summary-text.streaming {
   color: #475569;
 }
